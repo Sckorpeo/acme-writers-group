@@ -4,6 +4,8 @@ import axios from 'axios';
 import Users from './Users';
 import User from './User';
 
+import NewUsersList from './NewUserForm';
+
 
 class App extends Component {
 	constructor() {
@@ -14,6 +16,7 @@ class App extends Component {
 			delUserAlertShowed: false
 		};
 		this.deleteUser = this.deleteUser.bind(this);
+		this.addUser = this.addUser.bind(this);
 	}
 	async componentDidMount() {
 		try {
@@ -48,6 +51,11 @@ class App extends Component {
 			window.location.hash = '#';
 		}
 	}
+
+	addUser(user) {
+		this.setState({ users: [...this.state.users, user] });
+	}
+
 	render() {
 		const { users, userId } = this.state;
 		return (
@@ -56,7 +64,7 @@ class App extends Component {
 				<main>
 					<Users users={users} userId={userId} />
 					{
-						userId ? <User userId={userId} del={this.deleteUser} /> : null
+						userId ? <User userId={userId} del={this.deleteUser} /> : <NewUsersList addUser={this.addUser} />
 					}
 				</main>
 			</div>

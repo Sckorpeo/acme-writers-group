@@ -1,8 +1,44 @@
+main {
+	display: flex;
+}
+
+main>ul {
+	flex: 2
+}
+
+main>div,
+main>form {
+	flex: 8
+}
+
+.selected {
+	background-color: dodgerBlue;
+}
+
+.selected a {
+	color: cornSilk;
+}
+
 button {
 	margin-left: 1rem;
 }
 
-button:hover {
+button.del-btn:hover {
 	background-color: red;
 	cursor: pointer;
+}
+
+svg.fa-trash-can {
+	margin-left: .25rem;
+}
+
+svg.fa-trash-can:hover {
+	cursor: pointer;
+	color: red;
+}
+
+.new-user-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }

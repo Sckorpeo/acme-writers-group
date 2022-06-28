@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+
+
 class User extends Component {
 	constructor() {
 		super();
@@ -25,6 +29,11 @@ class User extends Component {
 
 		}
 	}
+	async deleteStory(storyId) {
+		await axios.delete(`/api/stories/${storyId}`);
+		const newStoriesArr = this.state.stories.filter(story => story.id !== storyId);
+		this.setState({ stories: newStoriesArr });
+	}
 
 	render() {
 		const { user, stories } = this.state;
@@ -33,7 +42,7 @@ class User extends Component {
 		return (
 			<div>
 				Details for {user.name}
-				<button onClick={() => del(user.id, stories)}>Delete User?</button>
+				<button onClick={() => del(user.id, stories)} className='del-btn'>Delete User?</button>
 				<p>
 					{user.bio}
 				</p>
@@ -42,7 +51,7 @@ class User extends Component {
 						stories.map(story => {
 							return (
 								<li key={story.id}>
-									{story.title}
+									{story.title} <FontAwesomeIcon icon={faTrashCan} onClick={() => this.deleteStory(story.id)} />
 									<p>
 										{story.body}
 									</p>

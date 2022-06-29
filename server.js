@@ -44,11 +44,24 @@ app.get('/api/users/:id/stories', async (req, res, next) => {
 	}
 });
 
+
 app.post('/api/users', async (req, res, next) => {
 	try {
 		const { name, bio } = req.body;
 		const newUser = await User.create({ name, bio });
 		res.status(201).send(newUser);
+	}
+	catch (err) {
+		next(err);
+	}
+});
+
+app.post('/api/users/:id/stories', async (req, res, next) => {
+	try {
+		const { title, body } = req.body;
+		const { id } = req.params;
+		const newStory = await Story.create({ title, body, userId: id, favorite: false });
+		res.status(201).send(newStory);
 	}
 	catch (err) {
 		next(err);

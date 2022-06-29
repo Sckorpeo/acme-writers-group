@@ -4,6 +4,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+import NewStoryForm from './NewStoryForm';
+
 
 class User extends Component {
 	constructor() {
@@ -12,6 +14,7 @@ class User extends Component {
 			user: {},
 			stories: []
 		};
+		this.addStory = this.addStory.bind(this);
 	}
 	async componentDidMount() {
 		let response = await axios.get(`/api/users/${this.props.userId}`);
@@ -34,11 +37,14 @@ class User extends Component {
 		const newStoriesArr = this.state.stories.filter(story => story.id !== storyId);
 		this.setState({ stories: newStoriesArr });
 	}
+	addStory(story) {
+		const { stories } = this.state;
+		this.setState({ stories: [...stories, story] });
+	}
 
 	render() {
 		const { user, stories } = this.state;
 		const { del } = this.props;
-		console.log(stories);
 		return (
 			<div>
 				Details for {user.name}
@@ -61,6 +67,7 @@ class User extends Component {
 						})
 					}
 				</ul>
+				<NewStoryForm updateStories={this.addStory} userId={user.id} />
 			</div>
 		);
 	}
